@@ -54,12 +54,11 @@ var OpenL10nParser = (function () {
          * Parse all the files of a folder
          */
         value: function parseFolder(folderPath) {
-
-            var self = this;
+            var _this = this;
 
             return this.getDirReader()(folderPath).then(function (files) {
-                return Promise.all(files.map(self.parseFile.bind(self, folderPath)));
-            }).then(self.bundleCollectionsByLanguage.bind(self));
+                return Promise.all(files.map(_this.parseFile.bind(_this, folderPath)));
+            }).then(this.bundleCollectionsByLanguage.bind(this));
         }
 
         /**
@@ -102,12 +101,11 @@ var OpenL10nParser = (function () {
     }, {
         key: 'getTransUnitsIntoMetaCollectionWrapper',
         value: function getTransUnitsIntoMetaCollectionWrapper(fileName) {
-
-            var self = this;
+            var _this2 = this;
 
             return function (root) {
-                var translations = self.getTranslations(root, fileName);
-                var meta = self.getMeta(root, fileName);
+                var translations = _this2.getTranslations(root, fileName);
+                var meta = _this2.getMeta(root, fileName);
                 return {
                     domainName: meta.domainName,
                     targetLanguageName: meta.targetLanguageName,

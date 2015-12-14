@@ -24,13 +24,9 @@ export default class OpenL10nParser {
      */
     parseFolder(folderPath: string): Promise<Object<{bundledTranslations: OpenL10nLanguage}>> {
 
-        var self = this;
-
         return this.getDirReader()(folderPath)
-            .then(function(files) {
-                return Promise.all(files.map(self.parseFile.bind(self, folderPath)));
-            })
-            .then(self.bundleCollectionsByLanguage.bind(self))
+            .then(files => Promise.all(files.map(this.parseFile.bind(this, folderPath))))
+            .then(this.bundleCollectionsByLanguage.bind(this))
             ;
     }
 
@@ -75,11 +71,9 @@ export default class OpenL10nParser {
      */
     getTransUnitsIntoMetaCollectionWrapper(fileName: string): (root: Object) => OpenL10nMetaCollection {
 
-        var self = this;
-
-        return function(root) {
-            var translations = self.getTranslations(root, fileName);
-            var meta = self.getMeta(root, fileName);
+        return root => {
+            var translations = this.getTranslations(root, fileName);
+            var meta = this.getMeta(root, fileName);
             return {
                 domainName: meta.domainName,
                 targetLanguageName: meta.targetLanguageName,
